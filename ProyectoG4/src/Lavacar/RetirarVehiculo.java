@@ -108,44 +108,7 @@ public class RetirarVehiculo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        Double valorAPagar=0.0;
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar cal  = Calendar.getInstance();
-        Date date = cal.getTime();
-        String fechaHora = dateFormat.format(date);
-        try {
-            // TODO add your handling code here:
 
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/bdparqueadero","root","");
-            Statement stat = con.createStatement();
-            ResultSet rs = stat.executeQuery("SELECT horaentrada,tipovehiculo FROM vehiculos WHERE placa='"+tfPlacaRetiro.getText()+"' AND estado='Disponible'");
-            rs.first();
-            String horaSalida = rs.getString(1);
-            Date horasalida = dateFormat.parse(horaSalida);
-            int minuntosACobrar = (int) (date.getTime()-horasalida.getTime())/60000;
-
-            System.out.println(minuntosACobrar);
-
-            if(rs.getString(2).equals("Automovil")){
-                valorAPagar=minuntosACobrar*33.333;
-            }else if(rs.getString(2).equals("Motocicleta")){
-                valorAPagar=minuntosACobrar*16.666;
-            }
-
-            System.out.println("Valos a pagar por "+rs.getString(2)+"= "+valorAPagar);
-            stat.executeUpdate("UPDATE vehiculos SET horasalida='"+fechaHora+"',estado='No Disponible', valorpagado='"+valorAPagar+"' WHERE placa='"+tfPlacaRetiro.getText()+"' AND estado='Disponible'");
-            int respuesta = JOptionPane.showConfirmDialog(null,"Valor a pagar:  $"+valorAPagar+"'\nDesea Imprimir Recibo","Salida de vehiculo",JOptionPane.YES_NO_OPTION);
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PanelRetirarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "El vehiculo no se encuentra en el parqueadero, por favor revise la placa ingresada");
-
-            Logger.getLogger(PanelRetirarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(PanelRetirarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_button1ActionPerformed
 
     /**

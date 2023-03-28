@@ -59,6 +59,7 @@ public class ListarVehiculo extends javax.swing.JFrame {
         cbAuto.setForeground(new java.awt.Color(0, 51, 153));
         cbAuto.setText("Automovil");
 
+        cbMoto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         cbMoto.setForeground(new java.awt.Color(0, 51, 153));
         cbMoto.setText("Motocicleta");
 
@@ -83,6 +84,12 @@ public class ListarVehiculo extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 51, 153));
         jLabel2.setText("Placa");
+
+        tfPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfPlacaActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 51, 153));
@@ -200,85 +207,16 @@ public class ListarVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_rbFueraParqActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel modelo = (DefaultTableModel) tblVehiculos.getModel();
-        modelo.setRowCount(0);
 
-        if (cbAuto.isSelected()) {
-            if (cbMoto.isSelected()) {
-                tipoVehiculo = "";
-            } else {
-                tipoVehiculo = "Automovil";
-            }
-        } else if (cbMoto.isSelected()) {
-            tipoVehiculo = "Motocicleta";
-        }
-
-        if (rbFueraParq.isSelected()) {
-            estado = "No Disponible";
-        }
-        if (rbEnParq.isSelected()) {
-            estado = "Disponible";
-        }
-        if (dcFechaBusqueda.getDate() != null) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = dcFechaBusqueda.getDate();
-            fecha = dateFormat.format(date);
-        }
-
-        try {
-            // TODO add your handling code here:
-
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/bdparqueadero", "root", "");
-            Statement stat = con.createStatement();
-            consulta = "SELECT * FROM vehiculos WHERE estado='" + estado + "' AND tipovehiculo LIKE'%" + tipoVehiculo + "%' AND placa LIKE '%" + tfPlaca.getText() + "%' AND propietario LIKE '%" + tfPropietario.getText() + "%' AND horaentrada LIKE '" + fecha + "%'";
-            System.out.println(consulta);
-            ResultSet rs = stat.executeQuery(consulta);
-            rs.first();
-
-            do {
-                String horasalida = rs.getString(6);
-                String pago = rs.getString(7);
-                if (horasalida == null) {
-                    horasalida = "No ha salido";
-                    pago = "0";
-                } else {
-                    horasalida = rs.getString(6).substring(10).substring(0,6);
-                    pago = rs.getString(7);
-                }
-                String[] fila = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5).substring(10).substring(0, 6), horasalida, "$" + pago};
-                modelo.addRow(fila);
-            } while (rs.next());
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PanelListarVehiculos.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(PanelListarVehiculos.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            // TODO add your handling code here:
-
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/bdparqueadero", "root", "");
-            Statement stat = con.createStatement();
-            consulta = "SELECT SUM(valorpagado)FROM vehiculos WHERE estado='" + estado + "' AND tipovehiculo LIKE'%" + tipoVehiculo + "%' AND placa LIKE '%" + tfPlaca.getText() + "%' AND propietario LIKE '%" + tfPropietario.getText() + "%' AND horasalida LIKE '" + fecha + "%'";
-            ResultSet rs = stat.executeQuery(consulta);
-            rs.first();
-            DecimalFormat df = new DecimalFormat("#.00");
-            Double IngresosTotales = Double.parseDouble(rs.getString(1));
-            JOptionPane.showMessageDialog(null, "El ingreso total del dia seleccionado es de : $ " + df.format(IngresosTotales) + " Pesos");
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PanelListarVehiculos.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(PanelListarVehiculos.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tfPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPlacaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfPlacaActionPerformed
 
     /**
      * @param args the command line arguments
