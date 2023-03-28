@@ -50,7 +50,7 @@ public class ListarVehiculo extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Placa", "Propietario", "Tipo de Vehiculo", "Hora Entrada", "Hora Salida", "Pago"
+                "Placa", "Propietario", "Tipo de Vehiculo", "Hora Entrada", "Hora Salida", "Pago"
             }
         ));
         jScrollPane1.setViewportView(tblVehiculos);
