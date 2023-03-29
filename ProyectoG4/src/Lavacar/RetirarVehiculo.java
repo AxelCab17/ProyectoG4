@@ -4,6 +4,20 @@
  */
 package Lavacar;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author igaming user
@@ -35,6 +49,11 @@ public class RetirarVehiculo extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tfPlacaRetiro.setFont(new java.awt.Font("Segoe UI Symbol", 1, 24)); // NOI18N
+        tfPlacaRetiro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfPlacaRetiroActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         jLabel2.setText("Digite numero de placa del vehiculo que desea retirar ");
@@ -108,8 +127,39 @@ public class RetirarVehiculo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+            Double valorAPagar=0.0;
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Calendar cal  = Calendar.getInstance();
+            Date date = cal.getTime();
+            String fechaHora = dateFormat.format(date);
+        try {
+            // TODO add your handling code here:
 
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/lavacarfide","root","");
+            Statement stat = con.createStatement();
+            ResultSet rs = stat.executeQuery("SELECT horaentrada,tipovehiculo FROM vehiculo WHERE placa='"+tfPlacaRetiro.getText()+"' AND estado='Disponible'");
+            rs.first();
+            String horaSalida = rs.getString(1);
+            Date horasalida = dateFormat.parse(horaSalida);
+            stat.executeUpdate("UPDATE vehiculo SET horasalida='"+fechaHora+"',estado='No Lavado',='"+"' WHERE placa='"+tfPlacaRetiro.getText()+"' AND estado='Disponible'");
+            int respuesta = JOptionPane.showConfirmDialog(null,"Valor a pagar:  $"+"'\nDesea Imprimir Recibo","Salida de vehiculo",JOptionPane.YES_NO_OPTION);
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RetirarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "El vehiculo no se encuentra en el lavacar, por favor revise la placa ingresada");
+            
+            Logger.getLogger(RetirarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(RetirarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_button1ActionPerformed
+
+    private void tfPlacaRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPlacaRetiroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfPlacaRetiroActionPerformed
 
     /**
      * @param args the command line arguments

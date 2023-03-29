@@ -1,6 +1,18 @@
-
 package Lavacar;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 public class ListarVehiculo extends javax.swing.JFrame {
 
@@ -9,6 +21,16 @@ public class ListarVehiculo extends javax.swing.JFrame {
      */
     public ListarVehiculo() {
         initComponents();
+        rbSinLavar.setSelected(true);
+        TableColumnModel columnModel = tblVehiculos.getColumnModel();
+
+        columnModel.getColumn(0).setPreferredWidth(40);
+        columnModel.getColumn(1).setPreferredWidth(70);
+        columnModel.getColumn(2).setPreferredWidth(150);
+        columnModel.getColumn(3).setPreferredWidth(100);
+        columnModel.getColumn(4).setPreferredWidth(70);
+        columnModel.getColumn(5).setPreferredWidth(70);
+        columnModel.getColumn(5).setPreferredWidth(100);
     }
 
     /**
@@ -25,8 +47,8 @@ public class ListarVehiculo extends javax.swing.JFrame {
         tblVehiculos = new javax.swing.JTable();
         cbAuto = new javax.swing.JCheckBox();
         cbMoto = new javax.swing.JCheckBox();
-        rbEnParq = new javax.swing.JRadioButton();
-        rbFueraParq = new javax.swing.JRadioButton();
+        rbLavado = new javax.swing.JRadioButton();
+        rbSinLavar = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
         tfPlaca = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -63,21 +85,21 @@ public class ListarVehiculo extends javax.swing.JFrame {
         cbMoto.setForeground(new java.awt.Color(0, 51, 153));
         cbMoto.setText("Motocicleta");
 
-        rbEnParq.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-        rbEnParq.setForeground(new java.awt.Color(0, 51, 153));
-        rbEnParq.setText("Lavado");
-        rbEnParq.addActionListener(new java.awt.event.ActionListener() {
+        rbLavado.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        rbLavado.setForeground(new java.awt.Color(0, 51, 153));
+        rbLavado.setText("Lavado");
+        rbLavado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbEnParqActionPerformed(evt);
+                rbLavadoActionPerformed(evt);
             }
         });
 
-        rbFueraParq.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
-        rbFueraParq.setForeground(new java.awt.Color(0, 51, 153));
-        rbFueraParq.setText("Sin Lavar");
-        rbFueraParq.addActionListener(new java.awt.event.ActionListener() {
+        rbSinLavar.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
+        rbSinLavar.setForeground(new java.awt.Color(0, 51, 153));
+        rbSinLavar.setText("Sin Lavar");
+        rbSinLavar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbFueraParqActionPerformed(evt);
+                rbSinLavarActionPerformed(evt);
             }
         });
 
@@ -140,7 +162,7 @@ public class ListarVehiculo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbMoto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(rbEnParq))
+                        .addComponent(rbLavado))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +172,7 @@ public class ListarVehiculo extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(tfPropietario, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(38, 38, 38)
-                .addComponent(rbFueraParq)
+                .addComponent(rbSinLavar)
                 .addContainerGap(99, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(153, 153, 153)
@@ -184,8 +206,8 @@ public class ListarVehiculo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbAuto)
                     .addComponent(cbMoto)
-                    .addComponent(rbEnParq)
-                    .addComponent(rbFueraParq))
+                    .addComponent(rbLavado)
+                    .addComponent(rbSinLavar))
                 .addGap(25, 25, 25)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
                 .addGap(28, 28, 28)
@@ -197,16 +219,70 @@ public class ListarVehiculo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void rbEnParqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbEnParqActionPerformed
+    String consulta;
+    String tipoVehiculo = "otro", estado = "", fecha = "";
+    private void rbLavadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbLavadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rbEnParqActionPerformed
+    }//GEN-LAST:event_rbLavadoActionPerformed
 
-    private void rbFueraParqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbFueraParqActionPerformed
+    private void rbSinLavarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbSinLavarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_rbFueraParqActionPerformed
+    }//GEN-LAST:event_rbSinLavarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) tblVehiculos.getModel();
+        modelo.setRowCount(0);
+
+        if (cbAuto.isSelected()) {
+            if (cbMoto.isSelected()) {
+                tipoVehiculo = "";
+            } else {
+                tipoVehiculo = "Automovil";
+            }
+        } else if (cbMoto.isSelected()) {
+            tipoVehiculo = "Motocicleta";
+        }
+
+        if (rbSinLavar.isSelected()) {
+            estado = "No disponible";
+        }
+        if (rbLavado.isSelected()) {
+            estado = "Disponible";
+        }
+
+        try {
+            // TODO add your handling code here:
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/lavacarfide", "root", "");
+            Statement stat = con.createStatement();
+            consulta = "SELECT * FROM vehiculo WHERE estado='" + estado + "' AND tipovehiculo LIKE'%" + tipoVehiculo + "%' AND placa LIKE '%" + tfPlaca.getText() + "%' AND propietario LIKE '%" + tfPropietario.getText() + "%' AND horaentrada LIKE '" + fecha + "%'";
+            System.out.println(consulta);
+            ResultSet rs = stat.executeQuery(consulta);
+
+            if (!rs.isBeforeFirst()) {
+                JOptionPane.showMessageDialog(null, "No se encontraron resultados para la consulta.", "Consulta vacía", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                while (rs.next()) {
+                    String horasalida = rs.getString(6);
+                    String pago = rs.getString(6);
+                    if (horasalida == null) {
+                        horasalida = "No se ha lavado";
+                        pago = "0";
+                    } else {
+                        horasalida = rs.getString(6).substring(10).substring(0, 6);
+                        pago = rs.getString(7);
+                    }
+                    String[] fila = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5).substring(10).substring(0, 6), horasalida, "$" + pago};
+                    modelo.addRow(fila);
+                }
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ListarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ListarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -264,8 +340,8 @@ public class ListarVehiculo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JRadioButton rbEnParq;
-    private javax.swing.JRadioButton rbFueraParq;
+    private javax.swing.JRadioButton rbLavado;
+    private javax.swing.JRadioButton rbSinLavar;
     private javax.swing.JTable tblVehiculos;
     private javax.swing.JTextField tfPlaca;
     private javax.swing.JTextField tfPropietario;

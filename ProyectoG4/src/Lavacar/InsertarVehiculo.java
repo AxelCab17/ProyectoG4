@@ -1,6 +1,16 @@
-
 package Lavacar;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class InsertarVehiculo extends javax.swing.JFrame {
 
@@ -9,6 +19,12 @@ public class InsertarVehiculo extends javax.swing.JFrame {
      */
     public InsertarVehiculo() {
         initComponents();
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(InsertarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
     }
 
     /**
@@ -146,6 +162,33 @@ public class InsertarVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_tfPlacaActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        String clasevehiculo = "";
+        String fechaHora = "";
+        String precio = "";
+        if (rbAuto.isSelected()) {
+            clasevehiculo = "Automovil";
+        }
+        if (rbMoto.isSelected()) {
+            clasevehiculo = "Motocicleta";
+        }
+
+        try {
+
+            Connection conn;
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/lavacarfide?autoReconnect=true&useSSL=false", "root", "");
+            Statement miStatament = conn.createStatement();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Calendar cal = Calendar.getInstance();
+            Date date = cal.getTime();
+            fechaHora = dateFormat.format(date);
+            System.out.print(dateFormat.format(date));
+            String sql = "INSERT INTO vehiculo (Placa, Propietario, TipoVehiculo, HoraEntrada, Estado) VALUES ('" + tfPlaca.getText() + "','" + tfPropietario.getText() + "','" + clasevehiculo + "','" + fechaHora + "','Disponible')";
+            miStatament.executeUpdate(sql);
+            JOptionPane.showMessageDialog(null, "El vehiculo se registro exitosamente");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(InsertarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_button1ActionPerformed
 
