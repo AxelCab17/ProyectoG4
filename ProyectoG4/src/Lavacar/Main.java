@@ -13,8 +13,19 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
+    InsertarVehiculo panelingresarvehiculo;
+    RetirarVehiculo panelretirarvehiculo;
+    ListarVehiculo panelListarVehiculos;
+
     public Main() {
         initComponents();
+
+        panelingresarvehiculo = new InsertarVehiculo();
+
+        panelretirarvehiculo = new RetirarVehiculo();
+
+        panelListarVehiculos = new ListarVehiculo();
+
     }
 
     /**
@@ -132,18 +143,34 @@ public class Main extends javax.swing.JFrame {
 
     private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
 
+        panelListarVehiculos.setVisible(true);
+        panelingresarvehiculo.setVisible(false);
+        panelretirarvehiculo.setVisible(false);
+        revalidate();
+        repaint();
     }//GEN-LAST:event_button3ActionPerformed
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
-
+        System.exit(0);
     }//GEN-LAST:event_button4ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+       
+        panelListarVehiculos.setVisible(false);
+        panelretirarvehiculo.setVisible(false);
+        panelingresarvehiculo.setVisible(true);
 
+        revalidate();
+        repaint();
     }//GEN-LAST:event_button1ActionPerformed
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-
+        
+        panelListarVehiculos.setVisible(false);
+        panelingresarvehiculo.setVisible(false);
+        panelretirarvehiculo.setVisible(true);
+        revalidate();
+        repaint();
     }//GEN-LAST:event_button2ActionPerformed
 
     /**

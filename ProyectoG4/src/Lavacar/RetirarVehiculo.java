@@ -100,13 +100,13 @@ public class RetirarVehiculo extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
+                        .addGap(94, 94, 94)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
+                        .addGap(130, 130, 130)
                         .addComponent(tfPlacaRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(184, 184, 184)
+                        .addGap(196, 196, 196)
                         .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -118,43 +118,70 @@ public class RetirarVehiculo extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tfPlacaRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addGap(26, 26, 26)
                 .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-            Double valorAPagar=0.0;
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Calendar cal  = Calendar.getInstance();
-            Date date = cal.getTime();
-            String fechaHora = dateFormat.format(date);
+        Double valorAPagar = 0.0;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        String fechaHora = dateFormat.format(date);
+        Connection con = null;
+
         try {
             // TODO add your handling code here:
-
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/lavacarfide","root","");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/lavacarfide", "root", "");
             Statement stat = con.createStatement();
-            ResultSet rs = stat.executeQuery("SELECT horaentrada,tipovehiculo FROM vehiculo WHERE placa='"+tfPlacaRetiro.getText()+"' AND estado='Disponible'");
+            ResultSet rs = stat.executeQuery("SELECT HoraEntrada,TipoVehiculo FROM vehiculo WHERE Placa='" + tfPlacaRetiro.getText() + "' AND Estado = 'Por lavar'");
+            if (rs.next()) {
+
+            } else {
+                JOptionPane.showMessageDialog(null, "El vehiculo no se encuentra en el lavacar, por favor revise la placa ingresada");
+                return;
+            }
+
             rs.first();
             String horaSalida = rs.getString(1);
-            Date horasalida = dateFormat.parse(horaSalida);
-            stat.executeUpdate("UPDATE vehiculo SET horasalida='"+fechaHora+"',estado='No Lavado',='"+"' WHERE placa='"+tfPlacaRetiro.getText()+"' AND estado='Disponible'");
-            int respuesta = JOptionPane.showConfirmDialog(null,"Valor a pagar:  $"+"'\nDesea Imprimir Recibo","Salida de vehiculo",JOptionPane.YES_NO_OPTION);
-            
+           
+            int lavadoACobrar = 10000;
+
+            System.out.println(lavadoACobrar);
+
+            if (rs.getString(2).equals("Automovil")) {
+                valorAPagar = lavadoACobrar * 3.33;
+            } else if (rs.getString(2).equals("Motocicleta")) {
+                valorAPagar = lavadoACobrar * 3.33;
+
+            }
+            System.out.println("Valor a pagar por " + rs.getString(2) + "= " + valorAPagar);
+            stat.executeUpdate("UPDATE vehiculo SET HoraSalida='" + fechaHora + "', Estado='Lavado',ValorPagado='" + valorAPagar+ "' WHERE Placa='" + tfPlacaRetiro.getText() + "' AND Estado='Por lavar'");
+
+            int respuesta = JOptionPane.showConfirmDialog(null, "Valor a pagar:  $" + valorAPagar + "\nDesea Imprimir Recibo", "Salida de vehiculo", JOptionPane.YES_NO_OPTION);
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(RetirarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "El vehiculo no se encuentra en el lavacar, por favor revise la placa ingresada");
-            
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al intentar conectarse a la base de datos. Por favor, intente más tarde.");
             Logger.getLogger(RetirarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
             Logger.getLogger(RetirarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(RetirarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
-        
+
+
     }//GEN-LAST:event_button1ActionPerformed
 
     private void tfPlacaRetiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPlacaRetiroActionPerformed

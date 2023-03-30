@@ -182,7 +182,7 @@ public class InsertarVehiculo extends javax.swing.JFrame {
             Date date = cal.getTime();
             fechaHora = dateFormat.format(date);
             System.out.print(dateFormat.format(date));
-            String sql = "INSERT INTO vehiculo (Placa, Propietario, TipoVehiculo, HoraEntrada, Estado) VALUES ('" + tfPlaca.getText() + "','" + tfPropietario.getText() + "','" + clasevehiculo + "','" + fechaHora + "','Disponible')";
+            String sql = "INSERT INTO vehiculo (Placa, Propietario, TipoVehiculo, HoraEntrada, Estado) VALUES ('" + tfPlaca.getText() + "','" + tfPropietario.getText() + "','" + clasevehiculo + "','" + fechaHora + "','Por lavar')";
             miStatament.executeUpdate(sql);
             JOptionPane.showMessageDialog(null, "El vehiculo se registro exitosamente");
 
