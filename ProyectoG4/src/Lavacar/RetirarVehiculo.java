@@ -155,15 +155,15 @@ public class RetirarVehiculo extends javax.swing.JFrame {
             System.out.println(lavadoACobrar);
 
             if (rs.getString(2).equals("Automovil")) {
-                valorAPagar = lavadoACobrar * 3.33;
+                valorAPagar = lavadoACobrar + 10500.00;
             } else if (rs.getString(2).equals("Motocicleta")) {
-                valorAPagar = lavadoACobrar * 3.33;
+                valorAPagar = lavadoACobrar + 5000.00;
 
             }
             System.out.println("Valor a pagar por " + rs.getString(2) + "= " + valorAPagar);
             stat.executeUpdate("UPDATE vehiculo SET HoraSalida='" + fechaHora + "', Estado='Lavado',ValorPagado='" + valorAPagar+ "' WHERE Placa='" + tfPlacaRetiro.getText() + "' AND Estado='Por lavar'");
 
-            int respuesta = JOptionPane.showConfirmDialog(null, "Valor a pagar:  $" + valorAPagar + "\nDesea Imprimir Recibo", "Salida de vehiculo", JOptionPane.YES_NO_OPTION);
+            int respuesta = JOptionPane.showConfirmDialog(null, "Valor a pagar:  ₡" + valorAPagar + "\nDesea Imprimir Recibo", "Salida de vehiculo", JOptionPane.YES_NO_OPTION);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(RetirarVehiculo.class.getName()).log(Level.SEVERE, null, ex);

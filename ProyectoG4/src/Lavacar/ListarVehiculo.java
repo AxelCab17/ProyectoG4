@@ -257,7 +257,7 @@ public class ListarVehiculo extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/lavacarfide", "root", "");
             Statement stat = con.createStatement();
-            consulta = "SELECT * FROM vehiculo WHERE Estado='" + estado + "' AND TipoVehiculo LIKE'%" + tipoVehiculo + "%' AND Placa LIKE '%" + tfPlaca.getText() + "%' AND Propietario LIKE '%" + tfPropietario.getText() + "%' AND HoraEntrada LIKE '" + fecha + "%' AND ValorPagado";
+            consulta = "SELECT Placa, Propietario, TipoVehiculo, HoraEntrada, HoraSalida, Estado, ValorPagado FROM vehiculo WHERE Estado='" + estado + "' AND TipoVehiculo LIKE'%" + tipoVehiculo + "%' AND Placa LIKE '%" + tfPlaca.getText() + "%' AND Propietario LIKE '%" + tfPropietario.getText() + "%' AND HoraEntrada LIKE '" + fecha + "%'";
 
             System.out.println(consulta);
             ResultSet rs = stat.executeQuery(consulta);
@@ -276,8 +276,9 @@ public class ListarVehiculo extends javax.swing.JFrame {
                         horasalida = horasalida.substring(Math.min(horasalida.length(), 10), Math.min(horasalida.length(), 16));
 
                     }
-                    String[] fila = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), (rs.getString(5) != null) ? rs.getString(5).substring(10).substring(0, 6) : ""};
+                    String[] fila = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), (rs.getString(5) != null) ? rs.getString(5).substring(10).substring(0, 6) : "", rs.getString(6), rs.getString(7)};
                     modelo.addRow(fila);
+
                 }
 
                 while (rs.next());
@@ -294,7 +295,7 @@ public class ListarVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- System.exit(0);
+        System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tfPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPlacaActionPerformed
