@@ -46,14 +46,13 @@ public class InsertarVehiculo extends javax.swing.JFrame {
         rbAuto = new javax.swing.JRadioButton();
         button1 = new java.awt.Button();
         jLabel5 = new javax.swing.JLabel();
-        Salir = new java.awt.Button();
         BtnBack = new java.awt.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel1.setForeground(new java.awt.Color(255, 204, 0));
         jLabel1.setText("Ingreso de Vehiculo");
 
         jLabel2.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
@@ -74,10 +73,9 @@ public class InsertarVehiculo extends javax.swing.JFrame {
         tfPropietario.setFont(new java.awt.Font("Segoe UI Symbol", 0, 12)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 0));
+        jLabel4.setForeground(new java.awt.Color(255, 204, 0));
         jLabel4.setText("Tipo de vehiculo");
 
-        rbMoto.setBackground(new java.awt.Color(0, 51, 153));
         rbMoto.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 12)); // NOI18N
         rbMoto.setForeground(new java.awt.Color(0, 51, 153));
         rbMoto.setText("Motocicleta");
@@ -87,7 +85,7 @@ public class InsertarVehiculo extends javax.swing.JFrame {
         rbAuto.setText("Automovil");
 
         button1.setActionCommand("Registrar Vehiculo");
-        button1.setBackground(new java.awt.Color(255, 255, 0));
+        button1.setBackground(new java.awt.Color(255, 204, 0));
         button1.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
         button1.setForeground(new java.awt.Color(0, 51, 153));
         button1.setLabel("Registrar");
@@ -99,19 +97,9 @@ public class InsertarVehiculo extends javax.swing.JFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/logo_u_fidelitas.png"))); // NOI18N
 
-        Salir.setBackground(new java.awt.Color(0, 51, 153));
-        Salir.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        Salir.setForeground(new java.awt.Color(255, 255, 0));
-        Salir.setLabel("Salir");
-        Salir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SalirActionPerformed(evt);
-            }
-        });
-
         BtnBack.setBackground(new java.awt.Color(0, 51, 153));
         BtnBack.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 18)); // NOI18N
-        BtnBack.setForeground(new java.awt.Color(255, 255, 0));
+        BtnBack.setForeground(new java.awt.Color(255, 204, 0));
         BtnBack.setLabel("Salir");
         BtnBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,9 +138,7 @@ public class InsertarVehiculo extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(81, 81, 81)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,9 +174,7 @@ public class InsertarVehiculo extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(rbMoto)
                             .addComponent(rbAuto))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                        .addComponent(Salir, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))))
+                        .addGap(20, 102, Short.MAX_VALUE))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(295, Short.MAX_VALUE)
@@ -236,10 +220,6 @@ public class InsertarVehiculo extends javax.swing.JFrame {
 
     }//GEN-LAST:event_button1ActionPerformed
 
-    private void SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_SalirActionPerformed
-
     private void BtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBackActionPerformed
         // TODO add your handling code here:
          this.dispose();
@@ -282,7 +262,6 @@ public class InsertarVehiculo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button BtnBack;
-    private java.awt.Button Salir;
     private java.awt.Button button1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
