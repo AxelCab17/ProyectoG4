@@ -21,7 +21,7 @@ public class ListarVehiculo extends javax.swing.JFrame {
      */
     public ListarVehiculo() {
         initComponents();
-        
+
         rbLavado.setSelected(true);
         TableColumnModel columnModel = tblVehiculos.getColumnModel();
 
@@ -255,7 +255,7 @@ public class ListarVehiculo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     String consulta;
     String tipoVehiculo = "otro", estado = "", fecha = "";
-    
+
     private void rbNoLavadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbNoLavadoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rbNoLavadoActionPerformed
@@ -300,30 +300,49 @@ public class ListarVehiculo extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "No se encontraron resultados para la consulta.", "Consulta vacía", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 while (rs.next()) {
-
                     String pago = rs.getString(7);
                     String horasalida = rs.getString(6);
+
                     if (horasalida == null) {
                         horasalida = "Sin lavar";
                         pago = "0";
                     } else {
-                        horasalida = horasalida.substring(Math.min(horasalida.length(), 10), Math.min(horasalida.length(), 16));
-
+                        horasalida = rs.getString(6).substring(Math.min(rs.getString(6).length(), 11), Math.min(rs.getString(6).length(), 16));
                     }
-                    String[] fila = {rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), (rs.getString(5) != null) ? rs.getString(5).substring(10).substring(0, 6) : "", rs.getString(6), rs.getString(7)};
+
+                    String horaEntrada = rs.getString(4);
+                    if (horaEntrada != null) {
+                        horaEntrada = horaEntrada.substring(Math.min(horaEntrada.length(), 10), Math.min(horaEntrada.length(), 16));
+                    }
+
+                    String horaSalida = rs.getString(5);
+                    if (horaSalida != null) {
+                        horaSalida = horaSalida.substring(Math.min(horaSalida.length(), 10), Math.min(horaSalida.length(), 16));
+                    }
+
+                    String[] fila = {rs.getString(1), rs.getString(2), rs.getString(3), horaEntrada, horaSalida, rs.getString(6), pago};
                     modelo.addRow(fila);
-
                 }
-
-                while (rs.next());
 
             }
 
-        } catch (ClassNotFoundException ex) {
+            while (rs.next());
+
+        
+
+    }
+    catch (ClassNotFoundException ex
+
+    
+        ) {
             Logger.getLogger(ListarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+    }
+    catch (SQLException ex
+
+    
+        ) {
             Logger.getLogger(ListarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    }
 
 
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -333,7 +352,7 @@ public class ListarVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_tfPlacaActionPerformed
 
     private void BtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBackActionPerformed
-    this.dispose();
+        this.dispose();
     }//GEN-LAST:event_BtnBackActionPerformed
 
     /**
@@ -351,23 +370,27 @@ public class ListarVehiculo extends javax.swing.JFrame {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
 
-                }
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ListarVehiculo.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ListarVehiculo.class  
 
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ListarVehiculo.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ListarVehiculo.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+} catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ListarVehiculo.class  
 
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ListarVehiculo.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+} catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ListarVehiculo.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ListarVehiculo.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
