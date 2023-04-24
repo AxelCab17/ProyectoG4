@@ -1,5 +1,6 @@
 package Lavacar;
 
+import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -201,7 +202,6 @@ public class InsertarVehiculo extends javax.swing.JFrame {
         }
 
         try {
-
             Connection conn;
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/lavacarfide?autoReconnect=true&useSSL=false", "root", "");
             Statement miStatament = conn.createStatement();
@@ -211,18 +211,26 @@ public class InsertarVehiculo extends javax.swing.JFrame {
             fechaHora = dateFormat.format(date);
             System.out.print(dateFormat.format(date));
             String sql = "INSERT INTO vehiculo (Placa, Propietario, TipoVehiculo, HoraEntrada, Estado) VALUES ('" + tfPlaca.getText() + "','" + tfPropietario.getText() + "','" + clasevehiculo + "','" + fechaHora + "','Por lavar')";
-            miStatament.executeUpdate(sql);
-            JOptionPane.showMessageDialog(null, "El vehiculo ya se encuentra en el lavacar. Pronto lo lavaremos");
 
+            // Verificar si la placa ya existe en la base de datos antes de insertar
+            String consulta = "SELECT * FROM vehiculo WHERE Placa = '" + tfPlaca.getText() + "'";
+            ResultSet resultado = miStatament.executeQuery(consulta);
+            if (resultado.next()) {
+                JOptionPane.showMessageDialog(null, "Ya existe un vehículo con la placa " + tfPlaca.getText(), "ERROR", JOptionPane.INFORMATION_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/Icons/error.png")));
+            } else {
+                miStatament.executeUpdate(sql);
+                JOptionPane.showMessageDialog(null, "El vehículo ya se encuentra en el lavacar. Pronto lo lavaremos", "GRACIAS", JOptionPane.INFORMATION_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/Icons/lavado.png")));
+            }
         } catch (SQLException ex) {
             Logger.getLogger(InsertarVehiculo.class.getName()).log(Level.SEVERE, null, ex);
         }
+
 
     }//GEN-LAST:event_button1ActionPerformed
 
     private void BtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBackActionPerformed
         // TODO add your handling code here:
-         this.dispose();
+        this.dispose();
     }//GEN-LAST:event_BtnBackActionPerformed
 
     /**

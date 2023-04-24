@@ -172,13 +172,13 @@ public class RetirarVehiculo extends javax.swing.JFrame {
             if (rs.next()) {
 
             } else {
-                JOptionPane.showMessageDialog(null, "El vehiculo no se encuentra en el lavacar, por favor revise la placa ingresada");
+                JOptionPane.showMessageDialog(null, "El vehiculo no se encuentra en el lavacar, por favor revise la placa ingresada", "Lo sentimos", JOptionPane.INFORMATION_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/Icons/busqueda.png")));
                 return;
             }
 
             rs.first();
             String horaSalida = rs.getString(1);
-           
+
             int lavadoACobrar = 10000;
 
             System.out.println(lavadoACobrar);
@@ -190,7 +190,7 @@ public class RetirarVehiculo extends javax.swing.JFrame {
 
             }
             System.out.println("Valor a pagar por " + rs.getString(2) + "= " + valorAPagar);
-            stat.executeUpdate("UPDATE vehiculo SET HoraSalida='" + fechaHora + "', Estado='Lavado',ValorPagado='" + valorAPagar+ "' WHERE Placa='" + tfPlacaRetiro.getText() + "' AND Estado='Por lavar'");
+            stat.executeUpdate("UPDATE vehiculo SET HoraSalida='" + fechaHora + "', Estado='Lavado',ValorPagado='" + valorAPagar + "' WHERE Placa='" + tfPlacaRetiro.getText() + "' AND Estado='Por lavar'");
 
             int respuesta = JOptionPane.showConfirmDialog(null, "Valor a pagar:  ₡" + valorAPagar + "\nDesea Imprimir Recibo", "Salida de vehiculo", JOptionPane.YES_NO_OPTION);
 
@@ -218,7 +218,7 @@ public class RetirarVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_tfPlacaRetiroActionPerformed
 
     private void BtnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBackActionPerformed
-       this.dispose();
+        this.dispose();
     }//GEN-LAST:event_BtnBackActionPerformed
 
     /**

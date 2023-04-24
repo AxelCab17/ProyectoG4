@@ -5,9 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -297,7 +294,7 @@ public class ListarVehiculo extends javax.swing.JFrame {
             ResultSet rs = stat.executeQuery(consulta);
 
             if (!rs.isBeforeFirst()) {
-                JOptionPane.showMessageDialog(null, "No se encontraron resultados para la consulta.", "Consulta vacía", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No se encontraron resultados para la consulta", "Consulta vacia", JOptionPane.INFORMATION_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/Icons/navegador.png")));
             } else {
                 while (rs.next()) {
                     String pago = rs.getString(7);

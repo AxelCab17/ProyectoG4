@@ -1,4 +1,3 @@
-
 package Lavacar;
 
 public class Main extends javax.swing.JFrame {
@@ -9,7 +8,6 @@ public class Main extends javax.swing.JFrame {
     InsertarVehiculo panelingresarvehiculo;
     RetirarVehiculo panelretirarvehiculo;
     ListarVehiculo panelListarVehiculos;
-   
 
     public Main() {
         initComponents();
@@ -20,7 +18,6 @@ public class Main extends javax.swing.JFrame {
 
         panelListarVehiculos = new ListarVehiculo();
 
-        
     }
 
     /**
@@ -160,7 +157,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_button4ActionPerformed
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-       
+
         panelListarVehiculos.setVisible(false);
         panelretirarvehiculo.setVisible(false);
         panelingresarvehiculo.setVisible(true);
@@ -170,7 +167,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_button1ActionPerformed
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        
+
         panelListarVehiculos.setVisible(false);
         panelingresarvehiculo.setVisible(false);
         panelretirarvehiculo.setVisible(true);
